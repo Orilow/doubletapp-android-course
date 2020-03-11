@@ -1,6 +1,7 @@
 package com.example.doubletappfirstwork
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -14,14 +15,20 @@ import kotlin.math.pow
 class SecondActivity(): AppCompatActivity() {
     companion object {
         private const val TAG = "SecondActivity"
+        private const val COUNTER_NAME = "counter"
+
+        fun createSecondActivityIntent(context: Context, counter: Int): Intent{
+            val intent = Intent(context, SecondActivity::class.java)
+            intent.putExtra(COUNTER_NAME, counter)
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         val bundleCounter: Int = intent.getIntExtra("counter", 0)
-        val textView = findViewById<TextView>(R.id.powed_counter)
-        textView.text = "${bundleCounter.toDouble().pow(2.0).toInt()}"
+        powed_counter.text = "${bundleCounter.toDouble().pow(2.0).toInt()}"
         Log.i(TAG, "was Created")
     }
 
@@ -56,8 +63,7 @@ class SecondActivity(): AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        val intent2 = Intent()
-        setResult(Activity.RESULT_OK,  intent2)
+        setResult(Activity.RESULT_OK,  Intent())
         finish()
         Log.i(TAG, "KeyDown Pressed")
         return super.onKeyDown(keyCode, event)

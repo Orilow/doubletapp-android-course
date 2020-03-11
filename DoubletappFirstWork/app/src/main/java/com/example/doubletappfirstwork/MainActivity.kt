@@ -1,12 +1,10 @@
 package com.example.doubletappfirstwork
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -14,24 +12,19 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
     }
-    
-    private var counter: Int = 0;
 
-    private fun setTextViewWithString(str: String?) {
-        val textView = findViewById<TextView>(R.id.counter)
-        textView.text = str
-        Log.i(TAG, "updated TextView")
-    }
+    private var counter: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setTextViewWithString(counter.toString())
+        counterView.text = counter.toString()
         buttonOne.setOnClickListener {
             Log.i(Companion.TAG, "Button was clicked");
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("counter", counter)
-            startActivityForResult(intent, 1)
+            startActivityForResult(
+                SecondActivity.createSecondActivityIntent(this, counter),
+                1
+            )
         }
         Log.i(Companion.TAG, "Was created");
     }
@@ -68,8 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        counter++
-        setTextViewWithString(counter.toString())
+        counterView.text = (++counter).toString()
         Log.i(Companion.TAG, "configuration was changed.");
     }
 
